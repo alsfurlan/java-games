@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.com.esucri.games.plataformas;
 
 import java.util.List;
@@ -17,6 +13,10 @@ public class PlataformaService {
 
     public Plataforma findById(Long id) {
         return entityManager.find(Plataforma.class, id);
+//        return entityManager
+//                .createQuery("SELECT p FROM Plataforma p WHERE p.id = :id", Plataforma.class)
+//                .setParameter("id", id)
+//                .getSingleResult();
     }
 
     public Plataforma add(Plataforma plataforma) {
@@ -34,15 +34,17 @@ public class PlataformaService {
     }
 
     public List<Plataforma> findAll() {
+        // JPQL         
         return entityManager
-                .createQuery("SELECT p FROM Plataforma p", Plataforma.class) // JPQL
+                .createQuery("SELECT p FROM Plataforma p", Plataforma.class)
+                //                .createNativeQuery("SELECT * FROM plataformas", Plataforma.class)
                 .getResultList();
     }
 
     public List<Plataforma> search(String descricao) {
-         return entityManager
+        return entityManager
                 .createQuery("SELECT p FROM Plataforma p WHERE LOWER(p.descricao) LIKE :descricao", Plataforma.class) // JPQL
-                .setParameter("nome", "%" + descricao.toLowerCase() + "%")
+                .setParameter("descricao", "%" + descricao.toLowerCase() + "%")
                 .getResultList();
     }
 

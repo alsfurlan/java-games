@@ -16,7 +16,7 @@ public class Plataforma implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String descricao;
     
     @Column(nullable = false)

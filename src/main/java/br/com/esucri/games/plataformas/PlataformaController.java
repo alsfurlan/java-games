@@ -2,6 +2,7 @@ package br.com.esucri.games.plataformas;
 
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -46,8 +47,8 @@ public class PlataformaController {
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        Plataforma plataforma = this.findById(id);
+    public void remove(@PathParam("id") long id) {
+        Plataforma plataforma = this.plataformaService.findById(id);
         if (plataforma == null) {
             throw new NotFoundException("Plataforma não encontrada");
         }
@@ -57,7 +58,7 @@ public class PlataformaController {
     @PUT
     @Path("{id}")
     public Plataforma update(@PathParam("id") Long id, Plataforma plataformaAtualizada) {
-        Plataforma plataformaEncontrada = this.findById(id);
+        Plataforma plataformaEncontrada = this.plataformaService.findById(id);
         if (plataformaEncontrada == null) {
             throw new NotFoundException("Plataforma não encontrada");
         }
@@ -68,6 +69,9 @@ public class PlataformaController {
     @GET
     @Path("search")
     public List<Plataforma> search(@QueryParam("desc") String descricao) {
+        if(descricao == null) {
+            throw new BadRequestException("Paramêtro desc não informado");
+        }
         return this.plataformaService.search(descricao);
     }
 }
