@@ -1,4 +1,4 @@
-package br.com.esucri.games.plataformas;
+package br.com.esucri.games.plataforma;
 
 import java.util.List;
 import javax.inject.Inject;
