@@ -1,14 +1,18 @@
 package br.com.esucri.games.jogo;
 
+import br.com.esucri.games.plataforma.Plataforma;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +37,10 @@ public class Jogo implements Serializable {
     private String logo;
     
     private LocalDate lancamento;
+    
+    @OneToOne(optional = false)    
+    @JoinColumn(name = "id_plataforma", foreignKey = @ForeignKey(name = "fk_jogos_plataformas"))
+    private Plataforma plataforma;
     
     public Jogo() {
     }
@@ -83,6 +91,14 @@ public class Jogo implements Serializable {
 
     public void setLancamento(LocalDate lancamento) {
         this.lancamento = lancamento;
+    }
+
+    public Plataforma getPlataforma() {
+        return plataforma;
+    }
+
+    public void setPlataforma(Plataforma plataforma) {
+        this.plataforma = plataforma;
     }
     
 }

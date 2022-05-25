@@ -31,7 +31,7 @@ public class JogoService {
     }
 
     public void remove(Long id) {
-        entityManager.remove(id);
+        entityManager.remove(findById(id));
     }
 
 }
