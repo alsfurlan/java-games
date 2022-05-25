@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,9 +42,9 @@ public class Jogo implements Serializable {
     
     private LocalDate lancamento;
     
-    @OneToMany(fetch = FetchType.EAGER)    
+    @ManyToMany(fetch = FetchType.EAGER)    
     @JoinTable(
-        name="relacionamento_plataformas_jogos",
+        name="plataformas_jogos",
         joinColumns = @JoinColumn(name = "id_jogo"),
         inverseJoinColumns = @JoinColumn(name = "id_plataforma"),
         foreignKey = @ForeignKey(name = "fk_jogo"),
