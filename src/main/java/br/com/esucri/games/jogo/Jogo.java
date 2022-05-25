@@ -3,16 +3,19 @@ package br.com.esucri.games.jogo;
 import br.com.esucri.games.plataforma.Plataforma;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -38,12 +41,18 @@ public class Jogo implements Serializable {
     
     private LocalDate lancamento;
     
-    @OneToOne(optional = false)    
-    @JoinColumn(name = "id_plataforma", foreignKey = @ForeignKey(name = "fk_jogos_plataformas"))
-    private Plataforma plataforma;
+    @OneToMany(fetch = FetchType.EAGER)    
+    @JoinTable(
+        name="relacionamento_plataformas_jogos",
+        joinColumns = @JoinColumn(name = "id_jogo"),
+        inverseJoinColumns = @JoinColumn(name = "id_plataforma"),
+        foreignKey = @ForeignKey(name = "fk_jogo"),
+        inverseForeignKey = @ForeignKey(name = "fk_plataforma")
+    )
+    private List<Plataforma> plataformas;
     
     public Jogo() {
-    }
+    } 
 
     public Long getId() {
         return id;
@@ -93,12 +102,12 @@ public class Jogo implements Serializable {
         this.lancamento = lancamento;
     }
 
-    public Plataforma getPlataforma() {
-        return plataforma;
+    public List<Plataforma> getPlataformas() {
+        return plataformas;
     }
 
-    public void setPlataforma(Plataforma plataforma) {
-        this.plataforma = plataforma;
+    public void setPlataformas(List<Plataforma> plataformas) {
+        this.plataformas = plataformas;
     }
     
 }
