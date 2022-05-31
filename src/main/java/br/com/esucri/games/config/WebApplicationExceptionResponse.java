@@ -1,10 +1,10 @@
-package br.com.esucri.games.regrasnegocio;
+package br.com.esucri.games.config;
 
-public class RegraNegocioMensagem {
+public class WebApplicationExceptionResponse {
     
     private String erro;
 
-    public RegraNegocioMensagem(String erro) {
+    public WebApplicationExceptionResponse(String erro) {
         this.erro = erro;
     }
 

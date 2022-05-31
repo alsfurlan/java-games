@@ -1,7 +1,5 @@
 package br.com.esucri.games.jogo;
 
-import br.com.esucri.games.regrasnegocio.RegraNegocioMensagem;
-import br.com.esucri.games.regrasnegocio.RegraNegocioException;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -13,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("jogos")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -35,28 +32,15 @@ public class JogoController {
     }
 
     @POST
-    public Response add(Jogo jogo) {
-        try {
-            Jogo jogoAdicionado = this.jogoService.add(jogo);
-            return Response.status(Response.Status.CREATED).entity(jogoAdicionado).build();
-        } catch (RegraNegocioException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(
-                    new RegraNegocioMensagem(e.getMessage())
-            ).build();
-        }
+    public Jogo add(Jogo jogo) {
+        return this.jogoService.add(jogo);
     }
 
     @PUT
     @Path("{id}")
-    public Response update(@PathParam("id") Long id, Jogo jogo) {
+    public Jogo update(@PathParam("id") Long id, Jogo jogo) {
         jogo.setId(id);
-        try {
-            return Response.ok(this.jogoService.update(jogo)).build();
-        } catch (RegraNegocioException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(
-                    new RegraNegocioMensagem(e.getMessage())
-            ).build();
-        }
+        return this.jogoService.update(jogo);
     }
 
     @DELETE
