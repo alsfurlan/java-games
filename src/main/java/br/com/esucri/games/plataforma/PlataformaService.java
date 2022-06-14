@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.BadRequestException;
 
 @Stateless
 public class PlataformaService {
@@ -20,6 +21,7 @@ public class PlataformaService {
     }
 
     public Plataforma add(Plataforma plataforma) {
+        validaExistenciaPlataforma(plataforma);
         entityManager.persist(plataforma);
         return plataforma;
     }
@@ -29,6 +31,7 @@ public class PlataformaService {
     }
 
     public Plataforma update(Plataforma plataformaAtualizada) {
+        validaExistenciaPlataforma(plataformaAtualizada);
         entityManager.merge(plataformaAtualizada);
         return plataformaAtualizada;
     }
@@ -46,6 +49,17 @@ public class PlataformaService {
                 .createQuery("SELECT p FROM Plataforma p WHERE LOWER(p.descricao) LIKE :descricao", Plataforma.class) // JPQL
                 .setParameter("descricao", "%" + descricao.toLowerCase() + "%")
                 .getResultList();
+    }
+
+    private void validaExistenciaPlataforma(Plataforma plataforma) {
+        List<Plataforma> resultList = entityManager
+                .createQuery("SELECT p FROM Plataforma p WHERE LOWER(p.descricao) = :descricao", Plataforma.class)
+                .setParameter("descricao", plataforma.getDescricao().toLowerCase())
+                .getResultList();
+        
+        if (resultList != null && !resultList.isEmpty()) {
+            throw new BadRequestException("O jogo já está cadastrado em nossa base");
+        }
     }
 
 }

@@ -6,14 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "plataformas", schema = "public")
+@SequenceGenerator(name = "plataforma_seq", sequenceName = "plataforma_seq")
 public class Plataforma implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="plataforma_seq")
     private Long id;
     
     @Column(nullable = false, unique = true)

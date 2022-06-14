@@ -17,43 +17,45 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "jogos", schema = "public")
+@SequenceGenerator(name = "JOGO_SEQ", sequenceName = "JOGO_SEQ")
 public class Jogo implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "JOGO_SEQ")
     private Long id;
-    
+
     @Column(nullable = false, unique = true)
     private String nome;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Genero genero;
-    
+
     @Column(nullable = false)
     private Float preco;
-    
+
     @Column(nullable = false)
     private String logo;
-    
+
     private LocalDate lancamento;
-    
-    @ManyToMany(fetch = FetchType.EAGER)    
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name="plataformas_jogos",
-        joinColumns = @JoinColumn(name = "id_jogo"),
-        inverseJoinColumns = @JoinColumn(name = "id_plataforma"),
-        foreignKey = @ForeignKey(name = "fk_jogo"),
-        inverseForeignKey = @ForeignKey(name = "fk_plataforma")
+            name = "plataformas_jogos",
+            joinColumns = @JoinColumn(name = "id_jogo"),
+            inverseJoinColumns = @JoinColumn(name = "id_plataforma"),
+            foreignKey = @ForeignKey(name = "fk_jogo"),
+            inverseForeignKey = @ForeignKey(name = "fk_plataforma")
     )
     private List<Plataforma> plataformas;
-    
+
     public Jogo() {
-    } 
+    }
 
     public Long getId() {
         return id;
@@ -110,5 +112,5 @@ public class Jogo implements Serializable {
     public void setPlataformas(List<Plataforma> plataformas) {
         this.plataformas = plataformas;
     }
-    
+
 }
